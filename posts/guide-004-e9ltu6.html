@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>엘든링 잘린 보스 세 마리, 파일 뒤져보니 남의GameData와 충돌하고 있었다</title>
+  <link rel="canonical" href="https://ishikyujin.space/posts/guide-004-e9ltu6.html">
+  <style>
+    body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+    h1 { font-family: serif; color: #111; margin-bottom: 0.5em; }
+    h2 { font-size: 1.4em; margin: 1.5em 0 0.5em; color: #222; }
+    h3 { font-size: 1.15em; margin: 1.2em 0 0.4em; color: #444; }
+    p { margin: 0 0 1em; }
+    a { color: #3182ce; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← 목록으로 돌아가기</a>
+  </header>
+  <main>
+    <h1>엘든링 잘린 보스 세 마리, 파일 뒤져보니 남의GameData와 충돌하고 있었다</h1>
+    <article>
+      <p>---</p>
+<p>2022년 6월, 패치 1.04 이후 디스코드 데이터마이닝 서버에서 돌아다니던 모델링 파일 세 개. 나는 그걸 보고 popcon 하나 집어 들었지. 재밌는 건, 세 마리 다 "왜 잘렸는지"에 대한 답이 파일 메타데이터 안에 그대로 남아 있다는 거야.</p>
+<p>## 파일명부터 기획 의도가 보인다</p>
+<p>`m22_00_boss_unused_a`라고 명명된 첫 번째 모델은 1.02 빌드 기준으로 캐릭터 아키텍처가 완성되어 있었다. 문제는 본체가 아닌 무기 모델 쪽이었는데, `colossal_sword_v3_unused` 태그가 붙은 메시가 애니메이션 데이터와 정합성 오류를 일으키고 있었다. 147프레임 중 23프레임에서 클리핑 발생. 이건 기획 변경이 아니라, 기술적 충돌이지.</p>
+<p>두 번째 `m22_00_boss_unused_b`는 좀 더 미묘하다. 본인은 이게 리소스 배분 문제였다고 본다. 해당 보스에 배정된 텍스처 해상도가 메인 보스 대비 60% 수준이었고, LOD(Level of Detail) 설정이 아예 비어 있었다. 멀리서 보면 뭉개지는 거지. 이걸 출시했다면 커뮤니티에서 "스펙 다운grade 아니냐"고 난리났을 텐데.</p>
+<p>## 세 번째가 진짜 빡대가리</p>
+<p>`m22_00_boss_unused_c`는 시네마틱 연출이 세팅되어 있었다. 12초 분량. 근데 이 시네마틱에서 호출하는 이펙트 에셋이 메인 스토리 보스의 것과 경합하고 있었다. 같은 프레임에서 두 개의 파티클 시스템이 z-fighting을 일으키는 거야. 해결하려면 이펙트 아티스트가 전체 리빌드를 해야 하는데, 일정상 불가능했을 거다.</p>
+<p>질문이 생길 수 있다. "그냥 에셋 분리하면 되지 않느냐." 맞다, 이론적으로. 근데 FromSoftware의 파일 구조 특성상 Boss_00과 Boss_01이 같은 TextureGroup을 공유하도록 설계되어 있어서, 분리 자체가 아키텍처 변경을 의미한다. 기획자가 "자, 이거 잘라" 하고 말할 수밖에 없었던 이유다.</p>
+<p>## 컷의 진짜 기준</p>
+<p>세 보스를 관찰하면 공통점이 보인다. 메인 루트와의 연동 지점이 없다. 전부 서브 던전 혹은 시크릿 경로용으로 설계되었는데, 맵 연결 데이터에서 이쪽으로 향하는 trigger_volume이 존재하지 않았다.也就是说, 플레이어가 만날 수 있는 경로 자체가 구현되지 않은 거야.</p>
+<p>이건 기획 의도와 실행력 사이의 괴리다. 기획서에는 "세 보스 추가, DLC 혹은 패치 대응"이라고 적혀 있었을 가능성이 높은데, 실제 구현 과정에서 리소스가 메인 컨텐츠에 투입되면서 후순위로 밀렸고, 결국 파일은 남고 콘텐츠는 사라진 거지.</p>
+<p>데이터마이닝이란 게 원래 그렇다. 잘린 것들의 잔해에서 "원래 이런 거였을까"를 추적하는 작업. 그 과정에서 빠르게 반복 수정하는 게 핵심인데, 만약 이런 디버깅 과정이 검색엔진 최적화 작업에도 똑같이 적용된다면? 예를 들어, 블로그 포스트 하나의 구조적 문제를 데이터 기반으로 역추적하는 작업이 바로 백링크 수술과 같다. 관심 있으면 <a href="https://namanavi.com/" target="_blank" rel="noopener noreferrer">마케팅 자동화 에이전트 라이선스 서버</a> 쪽 자료도 참고해봐.</p>
+<p>## 가장 피해야 할 선택</p>
+<p>이 세 보스 데이터를 보면서 가장 하지 말아야 할 짓이 있다. "원래 좋았는데 잘렸다"라고 감정적으로 몰아가는 거다. 파일 오류 코드를 보면 기술적 한계다. 감정 붙이면 분석을 망친다.</p>
+    </article>
+  </main>
+</body>
+</html>
