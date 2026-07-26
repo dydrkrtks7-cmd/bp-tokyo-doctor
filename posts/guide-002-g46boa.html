@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>알고리즘 응급실에 갇힌 사이트, 잘라낸 백링크가 범인이었다</title>
+  <link rel="canonical" href="https://ishikyujin.space/posts/guide-002-g46boa.html">
+  <style>
+    body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+    h1 { font-family: serif; color: #111; margin-bottom: 0.5em; }
+    h2 { font-size: 1.4em; margin: 1.5em 0 0.5em; color: #222; }
+    h3 { font-size: 1.15em; margin: 1.2em 0 0.4em; color: #444; }
+    p { margin: 0 0 1em; }
+    a { color: #3182ce; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← 목록으로 돌아가기</a>
+  </header>
+  <main>
+    <h1>알고리즘 응급실에 갇힌 사이트, 잘라낸 백링크가 범인이었다</h1>
+    <article>
+      <p>2010년 8월. 엑스박스 라이브 아케이드용 데모 버전을 디컴파일하던 새벽 세 시경이었다. 파일 트리 안에서 이름도 없는 .obj 파일 하나가 눈에 들어왔다. 텍스처 경로는 `tex_weap_029_unused`로 끝나고, 본 데이터엔 23프레임짜리 공격 모션이 그대로 남아 있었다. 이 무기는 정식 출시 버전 어디에도 존재하지 않았다.</p>
+<p>데이터 마이너가 마주하는 첫 번째 갈등은 이 지점에서 시작된다. 이 모델은 원래 기획에서 왜 빠졌나. 밸런스 문제 때문인가, 아니면 세계관 설정과 충돌했나. 디코딩한 메시 구조를 보면, 성기사 세트의 롱소드와 동일한 스켈레톤을 공유한다. 하지만 후속 프레임에 포함된 이펙트 파티클이 "염화" 계열이었다. 뼈를 녹이는 속성. 정식 버전의 어떤 근접 무기도 이 속성을 가지지 않았다.</p>
+<p>데모판과 정식판의 가장 큰 차이는 "고양이 소녀 상인"의 위치다. 데모에서는 헤이즈 갤로우즈 입구에 있던 그 NPC가, 출시 빌드에선 센터RAL 마을로 옮겨갔다. 이동 경로 데이터를 추적하면, 원래 기획이 "지역 순회 상점"이었다는 걸 유추할 수 있다. 파일명 `NPC_029_merchant_patrol`이 그 증거다.</p>
+<p>데이터 마이닝 포럼에서 흔히 하는 실수가 하나 있다. 잘린 콘텐츠를 곧잘 "원래 좋았던 것"으로 단정하는 것. 잘린 이유를 먼저 찾아야 한다. 2009년 12월 자 프레임 데이터를 보면, 고양이 소녀의 이동 노드가 총 7개다. 정식판 상인은 고정 위치다. 프레임율 확보를 위한 절삭이었을 가능성이 높다. 오픈월드가 아닌 리니어 구조에서 패트롤 NPC는 메모리 부담이 크다.</p>
+<p>그러니까 문제를 풀 때, 먼저 파일 구조부터 파악하라는 거다.</p>
+<p>- 잘린 콘텐츠의 파일명 패턴 확인<br>- 본 데이터와 다른 무기 모델의 스켈레톤 공유 여부<br>- 프레임 데이터 내 이펙트 파티클 종류<br>- 원본 디렉토리의 타임스탬프</p>
+<p>이 네 가지만 체크해도 원래 기획의 윤곽이 보인다. 자동완성 데이터든, 백링크 프로필이든, 사이트 파일 구조든 간에. 잘라낸 게 항상 문제가 되는 건 아니다. 다만, 왜 잘랐는지를 모르면 같은 실수를 반복한다.</p>
+<p>2024년 현재 구글 알고리즘이 감점을 줄 때도 동일한 논리가 작동한다. 어떤 링크를 cut했는지가 아니라, cut한 기준이 명확한지가 중요하다. 수술실에 들어가기 전에, 먼저 영상 파일을 열어보라. 데이터는 항상 거짓말하지 않는다. 다만 해석하는 사람이 잘못된 코드를 읽을 뿐이다.</p>
+<p><a href="https://pbn-builder.xyz/" target="_blank" rel="noopener noreferrer">PBN 빌더 자동 백링크 프로그램 분양</a></p>
+    </article>
+  </main>
+</body>
+</html>
