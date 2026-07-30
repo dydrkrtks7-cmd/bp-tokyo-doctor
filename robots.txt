@@ -2,4 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://ishikyujin.space/sitemap.xml
+Sitemap: https://ishikyujin.space/sitemap-pages.xml
 Sitemap: https://ishikyujin.space/sitemap-index.xml
