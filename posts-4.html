@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글 목록 (4/4) · tokyo-doctor</title>
+  <meta name="description" content="tokyo-doctor에 올라온 글 목록입니다.">
+  <link rel="canonical" href="https://ishikyujin.space/posts-4.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+ :root {
+ --bg-dark: #070709;
+ --bg-card: #0e0e12;
+ --primary-emerald: #10b981;
+ --accent-gold: #d9a752;
+ --text-white: #fafafc;
+ --text-gray: #8a8a93;
+ --border-thin: rgba(217, 167, 82, 0.15);
+ --font-serif: 'Noto Serif KR', 'Cinzel', serif;
+ --font-sans: 'Montserrat', sans-serif;
+ }
+
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ body {
+ background-color: var(--bg-dark);
+ color: var(--text-white);
+ font-family: var(--font-sans);
+ line-height: 1.8;
+ letter-spacing: 0.03em;
+ overflow-x: hidden;
+ }
+
+ /* Grid Overlay background */
+ body::before {
+ content: '';
+ position: fixed;
+ top: 0; left: 0; right: 0; bottom: 0;
+ background-image: 
+ linear-gradient(rgba(217, 167, 82, 0.02) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(217, 167, 82, 0.02) 1px, transparent 1px);
+ background-size: 40px 40px;
+ z-index: -1;
+ pointer-events: none;
+ }
+
+ .container {
+ max-width: 1000px;
+ margin: 0 auto;
+ padding: 0 30px;
+ }
+
+ /* Header Nav */
+ header {
+ border-bottom: 1px solid var(--border-thin);
+ padding: 25px 0;
+ backdrop-filter: blur(10px);
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(7, 7, 9, 0.85);
+ }
+
+ .nav-wrap {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ }
+
+ .logo {
+ font-family: 'Cinzel', serif;
+ font-weight: 700;
+ font-size: 1.3rem;
+ letter-spacing: 0.15em;
+ color: var(--accent-gold);
+ text-decoration: none;
+ }
+
+ .logo span {
+ color: var(--text-white);
+ }
+
+ nav {
+ display: flex;
+ gap: 30px;
+ }
+
+ nav a {
+ color: var(--text-gray);
+ text-decoration: none;
+ font-size: 0.8rem;
+ text-transform: uppercase;
+ letter-spacing: 0.1em;
+ transition: color 0.3s;
+ }
+
+ nav a:hover {
+ color: var(--accent-gold);
+ }
+
+ /* Hero */
+ .hero {
+ padding: 120px 0 80px 0;
+ text-align: center;
+ position: relative;
+ }
+
+ .hero::after {
+ content: '';
+ position: absolute;
+ top: 20%; left: 50%;
+ width: 300px; height: 300px;
+ background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+ transform: translate(-50%, -50%);
+ pointer-events: none;
+ }
+
+ .editorial-badge {
+ display: inline-block;
+ border: 1px solid var(--primary-emerald);
+ color: var(--primary-emerald);
+ font-family: var(--font-serif);
+ font-size: 0.7rem;
+ letter-spacing: 0.25em;
+ padding: 6px 18px;
+ margin-bottom: 30px;
+ text-transform: uppercase;
+ }
+
+ h1 {
+ font-family: var(--font-serif);
+ font-weight: 300;
+ font-size: clamp(2rem, 5vw, 3.2rem);
+ line-height: 1.25;
+ margin-bottom: 25px;
+ }
+
+ h1 em {
+ font-style: normal;
+ color: var(--accent-gold);
+ font-weight: 600;
+ }
+
+ .hero-sub {
+ font-size: 1rem;
+ color: var(--text-gray);
+ max-width: 600px;
+ margin: 0 auto 40px auto;
+ font-weight: 300;
+ }
+
+ .btn-gold {
+ display: inline-block;
+ border: 1px solid var(--accent-gold);
+ color: var(--accent-gold);
+ padding: 12px 35px;
+ text-decoration: none;
+ font-size: 0.85rem;
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ transition: all 0.3s;
+ background: transparent;
+ }
+
+ .btn-gold:hover {
+ background: var(--accent-gold);
+ color: var(--bg-dark);
+ box-shadow: 0 0 15px rgba(217, 167, 82, 0.3);
+ }
+
+ /* Surgical ICU Monitor */
+ .surgical-board {
+ background: var(--bg-card);
+ border: 1px solid var(--border-thin);
+ padding: 40px;
+ margin: 50px 0;
+ border-radius: 4px;
+ }
+
+ .board-title {
+ font-family: var(--font-serif);
+ color: var(--accent-gold);
+ font-size: 1.3rem;
+ margin-bottom: 25px;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ }
+
+ .pulse-dot {
+ width: 10px; height: 10px;
+ background: var(--primary-emerald);
+ border-radius: 50%;
+ animation: pulse 1.5s infinite;
+ }
+
+ @keyframes pulse {
+ 0% { transform: scale(0.9); opacity: 0.6; }
+ 50% { transform: scale(1.2); opacity: 1; }
+ 100% { transform: scale(0.9); opacity: 0.6; }
+ }
+
+ .grid-vitals {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 30px;
+ }
+
+ .vital-item {
+ border-left: 2px solid var(--primary-emerald);
+ padding-left: 20px;
+ }
+
+ .vital-val {
+ font-family: 'Cinzel', serif;
+ font-size: 1.8rem;
+ color: var(--text-white);
+ }
+
+ .vital-lbl {
+ font-size: 0.75rem;
+ color: var(--text-gray);
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ margin-top: 5px;
+ }
+
+ /* Surgical Procedures Section */
+ section {
+ padding: 80px 0;
+ border-top: 1px solid var(--border-thin);
+ }
+
+ .section-title {
+ font-family: var(--font-serif);
+ font-size: 1.8rem;
+ color: var(--accent-gold);
+ margin-bottom: 40px;
+ text-align: center;
+ }
+
+ .procedure-list {
+ display: flex;
+ flex-direction: column;
+ gap: 25px;
+ }
+
+ .procedure-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border-thin);
+ padding: 30px;
+ display: grid;
+ grid-template-columns: 80px 1fr;
+ gap: 20px;
+ transition: border-color 0.3s;
+ }
+
+ .procedure-card:hover {
+ border-color: var(--primary-emerald);
+ }
+
+ .procedure-num {
+ font-family: 'Cinzel', serif;
+ font-size: 2.2rem;
+ color: rgba(217, 167, 82, 0.3);
+ line-height: 1;
+ }
+
+ .procedure-detail h3 {
+ font-family: var(--font-serif);
+ font-size: 1.15rem;
+ margin-bottom: 10px;
+ color: var(--text-white);
+ }
+
+ .procedure-detail p {
+ font-size: 0.88rem;
+ color: var(--text-gray);
+ }
+
+ /* Price Table */
+ .price-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 30px;
+ margin-top: 40px;
+ }
+
+ .price-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border-thin);
+ padding: 40px;
+ text-align: center;
+ position: relative;
+ }
+
+ .price-card.premium {
+ border-color: var(--accent-gold);
+ }
+
+ .price-card h3 {
+ font-family: var(--font-serif);
+ font-size: 1.25rem;
+ margin-bottom: 15px;
+ }
+
+ .price-val {
+ font-family: 'Cinzel', serif;
+ font-size: 2.5rem;
+ color: var(--accent-gold);
+ margin-bottom: 25px;
+ }
+
+ .price-features {
+ list-style: none;
+ text-align: left;
+ margin-bottom: 35px;
+ font-size: 0.85rem;
+ color: var(--text-gray);
+ }
+
+ .price-features li {
+ margin-bottom: 12px;
+ padding-left: 20px;
+ position: relative;
+ }
+
+ .price-features li::before {
+ content: '✓';
+ position: absolute;
+ left: 0;
+ color: var(--primary-emerald);
+ }
+
+ /* Footer */
+ footer {
+ border-top: 1px solid var(--border-thin);
+ padding: 60px 0 40px 0;
+ text-align: center;
+ font-size: 0.75rem;
+ color: var(--text-gray);
+ }
+
+ footer p {
+ margin-bottom: 15px;
+ }
+
+ .footer-links a {
+ color: var(--accent-gold);
+ text-decoration: none;
+ margin: 0 10px;
+ }
+
+ @media (max-width: 768px) {
+ .grid-vitals { grid-template-columns: 1fr; gap: 20px; }
+ .procedure-card { grid-template-columns: 1fr; text-align: center; }
+ .price-grid { grid-template-columns: 1fr; }
+ nav { display: none; }
+ }
+ </style>
+  <meta property="og:title" content="글 목록 (4/4) · tokyo-doctor">
+  <meta property="og:description" content="tokyo-doctor에 올라온 글 목록입니다.">
+  <meta property="og:url" content="https://ishikyujin.space/posts-4.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+</head>
+<body>
+  <div class="container">
+    <header>
+ <div class="container nav-wrap">
+ <a href="/" class="logo">TOKYO <span>DOCTOR</span></a>
+ <nav>
+ <a href="#procedures">procedures</a>
+ <a href="#vitals">vitals</a>
+ <a href="#pricing">prescription</a>
+ </nav>
+ </div>
+ </header>
+    <main>
+      <h1>글 목록</h1>
+      <p>전체 78개 · 4/4 페이지</p>
+      <ul class="post-list">
+      <li class="post-item">
+        <a class="post-item__link" href="posts/myth-005-jii4lj.html">알고리즘 감점 수술실에서 자른 것들, 아직도 안 보이시죠?</a>
+        <p class="post-item__summary">2019년 3월, 클라이언트 대시보드에서 유기 trafic이 이틀 만에 40% 떨어진 그 아침을 기억합니다. 원인 분석 보고서를 쓰는데 손이 떨렸어요. 아니, 정확히는 보고서에 못 적는 것들이 너무</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-001-r4ntlr.html">박스 만져보기 전에 지갑 닫으세요</a>
+        <p class="post-item__summary">2003년 나이키 SB 덩크 로우 파리스를 850만원에 샀다. 스티치가 좀 빡빡한 게 오리지널 같았다. 다음 주에 감정 결과 나왔는데, 레트로였다. 100만원 날렸다.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-002-19zy5ej.html">구글 감점 수술대 올릴 때 다들 간과하는 백링크 마취법</a>
+        <p class="post-item__summary">대부분 병원비 날린다. 원인은 수술 집도의 실력이 아니라 수술실 조명 때문인 경우가 허다한데.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-002-1u99vpv.html">테라포밍 마스, 빈ernote 확장의 게임 밸런스 비너스 분석</a>
+        <p class="post-item__summary">테라포밍 마스의 보드게임 카페에서 손님들이 가장 많이 분실하는 부품 TOP3는 무엇일까? 이 질문을 던지며, 우리는 글룸헤이븐 1판 에라타의 특정 2인 전략에서 게임 밸런스를 완전히 무너뜨리는 수치</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-002-fplsi3.html">구글 알고리즘이 거부한 조건, 1997 년 IMF 협상의 그림자와 겹친다</a>
+        <p class="post-item__summary">3 시 반, 청와대 행정실 연결 전화가 끊어졌다.방안에서는 담배 연기가 가득했고, 책상 위에는 붉은색 인감 날인 도장이 놓여 있었다.그때 나는 외환위기라는 큰 그림보다 협상 테이블에서 오갔던 세 가</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-002-uxdhuf.html">홍대 폐업 가게들의 공통점과 살아남은 곳들의 비법</a>
+        <p class="post-item__summary">홍대 상권에서 폐업한 업소들은 모두 하나의 공통점을 가지고 있었다. 바로 높은 권리금이었다. 2억 원을 받고 나간 가게의 실거래 내역서를 보면, 그들이 왜 폐업했는지 이해가 간다.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-002-zxf1hp.html">구글한테 맞아본 사람들만 아는 감점 치료 타이밍</a>
+        <p class="post-item__summary">월 1억 클릭 찍던 사이트가 일주일 만에 200만으로 꺼지는 거, 실제로 본 적 있다. 그때 그 업주가 나한테 물어본 게 &quot;알고리즘이 잘못했는지, 내가 잘못했는지&quot;였다. 답은 둘 다 아닌 경우가 더</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-14xolzq.html">구글 감점에서 살아남은 자들의 수술기록</a>
+        <p class="post-item__summary">3월 새벽 두시, 서치컨솔에 빨간 메일이 떴다. &quot;수동 작업이 감지됨.&quot; 그 순간의 손 떨림은 아직 기억한다. 첫 판은 그때 시작됐다.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-1cstepd.html">HR 이 면담록에 절대 적지 않는 BARS 앵커의 그림자</a>
+        <p class="post-item__summary">퇴직 면담실에서 HR 담당자가 키보드를 두드리는 소리가 유난히 컸다. 표면적으로는 '개인 사정'으로 처리되었지만, 실제로는 BARS 척도의 최하단 앵커에 해당되는 행위가 누적된 결과였다. 당신은 그</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-1wtwyo.html">“유니콘”은 왜 숨겨졌고, 스콧은 왜 뒤돌아섰는가</a>
+        <p class="post-item__summary">블레이드 러너 파이널 컷에 유니콘이 들어간 건 “너무 오래된 장면을 살리려는 시도”가 아니라, 실제로는 1992년 VFX 팀이 남긴 스캔 파일이 우연히 재활용된 덕이다. 당시 사용된 “Panavis</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-5m1ktk.html">2016 년 스위프 종료 직전, 양국은 왜 침묵으로 연장을 결심했는지</a>
+        <p class="post-item__summary">2016 년 서울 국제금융센터 로비. 공식 발표 전 비공식 채널이 움직였다. 회의실 뒤쪽에서 수화기 소리가 끊기는 순간, 양국 중앙은행 간 대화는 이미 끝난 것으로 알려졌다. 표면적으로는 만료 시점</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-7p4bup.html">알고리즘에 찍힌 병원비, 백링크 수술실에서 계산서가 나왔다</a>
+        <p class="post-item__summary">글룸헤이븐 2판 한 장에 47만원을 지불한 적이 있다.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-bqgta3.html">알고리즘 감점 환자, 백링크 수술대 위에서 깨닫는 번역의 함정</a>
+        <p class="post-item__summary">진료실에 앉아있는 환자는 18 세기 번역본을 아침마다 읊으며 불안 증세를 보였지만, 정작 현대 임상 현장에서 그 구절은 PTSD 재경험을 유발하는 것으로 확인되었습니다. 고전 텍스트의 권위 뒤에 숨</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-003-e8rpab.html">면접관 책상 위에 엎어져 있던 그 점수표, DC 형에서 IRP 로 갈아탈 때 숨겨진 공제 한 줄</a>
+        <p class="post-item__summary">2014 년 겨울, 최종 면접 대기실 책상 위에 실수로 놓여 있던 내부 평가표를 본 적이 있다. 합격자가 아닌 면접관의 시선으로 본 그 표에는 '지원 동기'보다 '리스크 관리 능력'에 3 배의 가중</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-004-1y2oh5w.html">검색엔진의 신뢰를 갉아먹는 유령 링크의 실체</a>
+        <p class="post-item__summary">당신의 웹사이트가 갑자기 검색 결과 페이지에서 자취를 감췄다면, 범인은 십중팔구 당신이 방치한 저품질 백링크다. 많은 운영자가 검색엔진의 알고리즘을 마치 미신처럼 대하지만, 사실 구조는 매우 명확하</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-004-bw6612.html">알고리즘 감점은 미사용 코드처럼 남아있다</a>
+        <p class="post-item__summary">데이터마이닝으로 숨겨진 적을 찾는다고? 반은 맞고 반은 틀렸다. 진짜 무서운 건 발굴한 다음이다.</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-004-k6xc5t.html">월 3000 벌고 망한 홍대 먹자골목 잔혹사와 알고리즘 저품질 수술의 공통분모</a>
+        <p class="post-item__summary">2023년 11월 14일 화요일 새벽 2시, 홍대 클럽거리 뒷골목은 영하의 날씨에도 헌팅포차를 찾는 애들로 바글거렸다. 흔히 상권이 죽어서, 혹은 손님이 없어서 가게들이 문을 닫는다고 생각하지만 그</p>
+      </li>
+      <li class="post-item">
+        <a class="post-item__link" href="posts/qa-005-1ocsfbs.html">백링크 수술실 구경하면서 배운 구글 감점 처리법</a>
+        <p class="post-item__summary">2024년 2월, 마포 서교동 카페. 노트북 두 대 펼쳐놓고 모니터 쳐다보는 사람이 있었다. 하나는 서치콘솔, 하나는 유기 그래프. 둘 다 꼬이기 시작한 지 한 달째.</p>
+      </li>
+      </ul>
+    <nav class="pager">
+      <a class="pager__link" href="posts.html">1</a>
+      <a class="pager__link" href="posts-2.html">2</a>
+      <a class="pager__link" href="posts-3.html">3</a>
+      <span class="pager__current">4</span>
+    </nav>
+    </main>
+  </div>
+</body>
+</html>
